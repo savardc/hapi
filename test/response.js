@@ -46,7 +46,8 @@ describe('Response', () => {
                 .header('combo', 'o')
                 .header('combo', 'k', { append: true, separator: '-' })
                 .header('combo', 'bad', { override: false })
-                .code(200);
+                .code(200)
+                .message('status message');
         };
 
         const server = new Hapi.Server();
@@ -67,6 +68,7 @@ describe('Response', () => {
         server.inject('/', (res) => {
 
             expect(res.statusCode).to.equal(200);
+            expect(res.statusMessage).to.equal('status message');
             expect(res.result).to.exist();
             expect(res.result).to.equal('text');
             expect(res.headers['cache-control']).to.equal('max-age=1, must-revalidate, private');
